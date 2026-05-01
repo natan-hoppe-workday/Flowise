@@ -10,6 +10,10 @@ RUN apk add --no-cache chromium curl
 #install PNPM globally
 RUN npm install -g pnpm
 
+# CVE-2026-31431 mitigation (Copy Fail)
+RUN echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif.conf && \
+    rmmod algif_aead 2>/dev/null || true
+
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
